@@ -1,0 +1,977 @@
+---------Module 1-----------
+Option Explicit
+
+
+
+Sub search_all()
+FeeReceipt.TextBox1 = LCase(FeeReceipt.TextBox1)
+Dim sh As Worksheet
+Set sh = Sheets("sheet5")
+Dim i As Long
+Dim A As Long
+Dim p As Integer, k As Integer
+With FeeReceipt.ListBox1
+    .Clear
+    .ColumnCount = 15
+    .Font.Size = 9
+    .List = sh.Range("P1", "AD1").Value
+    .RemoveItem 0
+    .ColumnWidths = "50,50,50,50,100,100,100,100,100,100,100,100,100,100,150"
+    
+    .AddItem
+    .List(0, 0) = "Receipt No"
+    .List(0, 1) = "Date if Receipt"
+    .List(0, 2) = "Receipt Mode"
+    .List(0, 3) = "Mode No."
+    .List(0, 4) = "Annual Fee Received"
+    .List(0, 5) = "Monthly Fee For the month of"
+    .List(0, 6) = "Amount Received as Monthly Fee"
+    .List(0, 7) = "Land Mark for Transport"
+    .List(0, 8) = "Transport Fee For The Month Of"
+    .List(0, 9) = "Amount Received As Transport Fee"
+    .List(0, 10) = "Other Fee For the MonTh Of"
+    .List(0, 11) = "Other Fee Discription"
+    .List(0, 12) = "Amount Received as Other Fee"
+    .List(0, 13) = "Total Fee Received from this Receipt No"
+    .List(0, 14) = "Remarks"
+    
+    .Selected(0) = True
+    For i = 2 To sh.Range("A" & Rows.Count).End(xlUp).Row
+    For A = 1 To Len(sh.Cells(i, 2))
+    p = FeeReceipt.TextBox1.TextLength
+    For k = 1 To 15
+    
+    If LCase(Mid(sh.Cells(i, k), A, p)) = FeeReceipt.TextBox1 And FeeReceipt.TextBox1 <> "" Then
+    .AddItem
+    .List(.ListCount - 1, 0) = sh.Cells(i, 16)
+    .List(.ListCount - 1, 1) = sh.Cells(i, 17)
+    .List(.ListCount - 1, 2) = sh.Cells(i, 18)
+    .List(.ListCount - 1, 3) = sh.Cells(i, 19)
+    .List(.ListCount - 1, 4) = sh.Cells(i, 20)
+    .List(.ListCount - 1, 5) = sh.Cells(i, 21)
+    .List(.ListCount - 1, 6) = sh.Cells(i, 22)
+    .List(.ListCount - 1, 7) = sh.Cells(i, 23)
+    .List(.ListCount - 1, 8) = sh.Cells(i, 24)
+    .List(.ListCount - 1, 9) = sh.Cells(i, 25)
+    .List(.ListCount - 1, 10) = sh.Cells(i, 26)
+    .List(.ListCount - 1, 11) = sh.Cells(i, 27)
+    .List(.ListCount - 1, 12) = sh.Cells(i, 28)
+    .List(.ListCount - 1, 13) = sh.Cells(i, 29)
+    .List(.ListCount - 1, 14) = sh.Cells(i, 30)
+    
+    End If
+    Next k
+    Next A
+    Next i
+    End With
+End Sub
+
+----FillFeesReceipt-----
+Option Explicit
+
+Sub FillFeesReceipt()
+    On Error Resume Next
+    Dim x As Long
+    Dim y As Long
+    x = Sheet2.Range("A" & Rows.Count).End(xlUp).Row
+    For y = 2 To x
+    If Sheet9.Range("O6").Value = Sheet2.Cells(y, "A").Value Then
+        Sheet9.Range("C8").Value = Sheet2.Cells(y, "A").Value
+        Sheet9.Range("J8").Value = Sheet2.Cells(y, "E").Value
+        Sheet9.Range("J10").Value = Sheet2.Cells(y, "H").Value
+        Sheet9.Range("E13").Value = Sheet2.Cells(y, "B").Value
+        Sheet9.Range("E14").Value = Sheet2.Cells(y, "C").Value
+        Sheet9.Range("E15").Value = Sheet2.Cells(y, "G").Value
+        Sheet9.Range("E16").Value = Sheet2.Cells(y, "D").Value
+
+    End If
+    Next y
+End Sub
+
+-----FillAdmissionSheet-----
+Sub FillAdmissionSheet()
+
+    On Error Resume Next
+    Dim x As Long
+    Dim y As Long
+    
+    x = Sheet3.Range("A" & Rows.Count).End(xlUp).Row
+    For y = 2 To x
+    If Sheet8.Range("AE4").Value = Sheet3.Cells(y, "A").Value Then
+    Sheet8.Range("F3").Value = Sheet3.Cells(y, "A").Value
+    Sheet8.Range("U3").Value = Sheet3.Cells(y, "L").Value
+    Sheet8.Range("H6").Value = Sheet3.Cells(y, "B").Value
+    Sheet8.Range("H8").Value = Sheet3.Cells(y, "C").Value
+    Sheet8.Range("H12").Value = Sheet3.Cells(y, "E").Value
+    Sheet8.Range("P11").Value = Sheet3.Cells(y, "J").Value
+    Sheet8.Range("H16").Value = Sheet3.Cells(y, "D").Value
+    Sheet8.Range("H20").Value = Sheet3.Cells(y, "F").Value
+    Sheet8.Range("H22").Value = Sheet3.Cells(y, "G").Value
+    Sheet8.Range("H26").Value = Sheet3.Cells(y, "H").Value
+    
+    '
+    End If
+    Next y
+    
+    '
+End Sub
+
+---------AssignButtons-----------
+Option Explicit
+
+Sub gotohomesheet()
+    Sheet7.Activate
+End Sub
+
+Sub showloginpage()
+    LoginPage.Show
+End Sub
+
+Sub printpreviewAissionform()
+    Sheet8.PrintPreview
+End Sub
+
+Sub printpreviewFeeReceipt()
+    Sheet9.PrintPreview
+End Sub
+
+Sub printAdmissionForm()
+    Sheet8.PrintOut
+End Sub
+
+Sub printFeesReceipt()
+    Sheet9.PrintOut
+End Sub
+
+---------UserForm2---------
+Option Explicit
+Private Sub CommandButton10_Click()
+    Sheet6.Activate
+    Report.Show
+End Sub
+
+Private Sub CommandButton11_Click()
+    Unload Me
+End Sub
+
+Private Sub CommandButton12_Click()
+    Sheet9.Activate
+    Unload Me
+    ExitVBE
+End Sub
+
+Private Sub CommandButton13_Click()
+    Sheet8.Activate
+    Unload Me
+    ExitVBE
+End Sub
+
+Private Sub CommandButton8_Click()
+    Sheet3.Activate
+    Admission.Show
+End Sub
+
+Private Sub CommandButton9_Click()
+    Sheet2.Activate
+    FeeDeposit.Show
+End Sub
+
+
+Function ExitVBE()
+    Application.VBE.MainWindow.Visible = False
+End Function
+
+
+Private Sub UserForm_Click()
+
+End Sub
+ 
+
+----------Report-------------
+
+' Declare variables to hold subject marks and exam name and ID
+Dim ID As Integer
+Dim Exam As String
+Dim English As Integer
+Dim Hindi As Integer
+Dim Maths As Integer
+Dim Science As Integer
+Dim History As Integer
+Dim Geography As Integer
+Dim Marathi As Integer
+Dim LastID As Long
+
+' Function to calculate total marks
+Function CalculateTotal() As Integer
+    CalculateTotal = English + Hindi + Maths + Science + History + Geography + Marathi
+End Function
+
+' Function to calculate percentage
+Function CalculatePercentage() As Double
+    CalculatePercentage = CalculateTotal() / 700 * 100
+End Function
+
+' Function to generate ID in "001" format
+'Function GenerateID() As String
+ '   Dim lastRow As Long
+  '  lastRow = Worksheets("ReportCard").Cells(Rows.Count, 1).End(xlUp).Row
+   ' LastID = IIf(lastRow = 1, 0, Worksheets("ReportCard").Cells(lastRow, 1).Value)
+    'GenerateID = Format(LastID + 1, "000")
+'End Function
+
+' Validate subject marks
+Function ValidateMarks(mark As String) As Boolean
+    If Not IsNumeric(mark) Then
+        MsgBox "Please enter numeric value for marks.", vbExclamation, "Invalid Input"
+        ValidateMarks = False
+    ElseIf mark < 0 Or mark > 100 Then
+        MsgBox "Marks should be between 0 and 100.", vbExclamation, "Invalid Input"
+        ValidateMarks = False
+    Else
+        ValidateMarks = True
+    End If
+End Function
+
+' Button click event to calculate results and write to worksheet
+Private Sub CommandButton1_Click()
+    On Error GoTo ErrorHandler
+    ' Validate name field
+    If TextBox10.Text = "" Then
+        MsgBox "Please enter a name.", vbExclamation, "Invalid Input"
+        Exit Sub
+    End If
+    
+    If TBregno.Value = "" Then
+        MsgBox "Please enter the reg no"
+        Exit Sub
+    End If
+    
+    If CBStandard.Value = "" Then
+        MsgBox ("Please select the Standard you are studying")
+        Exit Sub
+    End If
+    
+    If TextBox12.Text = "" Then
+        MsgBox "Please enter Exam name"
+        Exit Sub
+    End If
+        
+    ' Validate subject marks
+    If Not ValidateMarks(TextBox2.Text) Or Not ValidateMarks(TextBox3.Text) Or Not ValidateMarks(TextBox4.Text) Or _
+        Not ValidateMarks(TextBox6.Text) Or Not ValidateMarks(TextBox8.Text) Or Not ValidateMarks(TextBox9.Text) Or _
+        Not ValidateMarks(TextBox7.Text) Then
+        Exit Sub
+    End If
+    
+    ' Get marks from textboxes
+    ID = Val(TBregno.Text)
+    Exam = TextBox12.Value
+    English = Val(TextBox2.Text)
+    Hindi = Val(TextBox4.Text)
+    Maths = Val(TextBox3.Text)
+    Science = Val(TextBox6.Text)
+    History = Val(TextBox8.Text)
+    Geography = Val(TextBox9.Text)
+    Marathi = Val(TextBox7.Text)
+    
+    ' Calculate total marks and percentage
+    Dim totalMarks As Integer
+    Dim percentage As Double
+    totalMarks = CalculateTotal()
+    percentage = CalculatePercentage()
+
+
+    ' Update ID label caption
+    'Label2.Caption = ID
+    
+    ' Write data to worksheet
+    Dim ws As Worksheet
+    Set ws = Worksheets("ReportCard")
+    
+    With ws
+        ' Find next empty row
+        Dim nextRow As Long
+        nextRow = .Cells(.Rows.Count, 1).End(xlUp).Row + 1
+        
+        ' Write data to worksheet
+        .Cells(nextRow, 1).Value = ID
+        .Cells(nextRow, 2).Value = TextBox10.Text ' Name
+        .Cells(nextRow, 3).Value = Exam
+        .Cells(nextRow, 4).Value = CBStandard.Text
+        .Cells(nextRow, 5).Value = English
+        .Cells(nextRow, 6).Value = Hindi
+        .Cells(nextRow, 7).Value = Maths
+        .Cells(nextRow, 8).Value = Science
+        .Cells(nextRow, 9).Value = History
+        .Cells(nextRow, 10).Value = Geography
+        .Cells(nextRow, 11).Value = Marathi
+        .Cells(nextRow, 12).Value = totalMarks
+        .Cells(nextRow, 13).Value = percentage
+    End With
+    
+    ' Clear textboxes
+    TBregno.Text = ""
+    TextBox12.Text = ""
+    TextBox2.Text = ""
+    TextBox3.Text = ""
+    TextBox4.Text = ""
+    TextBox6.Text = ""
+    TextBox8.Text = ""
+    TextBox9.Text = ""
+    TextBox7.Text = ""
+    TextBox10.Text = ""
+    'Label2.Caption = GenerateID()
+    
+    Exit Sub
+
+ErrorHandler:
+    MsgBox "An error occurred: " & Err.Description, vbExclamation, "Error"
+End Sub
+
+
+' Initialize form
+Private Sub UserForm_Initialize()
+    ' Set default values for textboxes
+    TBregno.Text = ""
+    TextBox2.Text = ""
+    TextBox3.Text = ""
+    TextBox4.Text = ""
+    TextBox6.Text = ""
+    TextBox8.Text = ""
+    TextBox9.Text = ""
+    TextBox7.Text = ""
+    TextBox10.Text = ""
+    CBStandard.Text = ""
+    
+    ' Initialize ID label
+    'Label2.Caption = GenerateID()
+End Sub
+
+' Cancel button click event
+Private Sub CommandButton2_Click()
+    Unload Me
+End Sub
+
+----------LoginPage------------
+
+Option Explicit
+Private Sub CommandButton1_Click()
+    On Error GoTo ErrorHandler
+
+    ' Validate username and password
+    If TextBox100.Text = "admin" And TextBox20.Text = "admin" Then
+        ' Login successful
+        MsgBox "Login successful!", vbInformation, "Success"
+        Unload Me
+        UserForm2.Show
+        ' Add code to navigate to the next page or perform other actions after successful login
+    Else
+        ' Invalid username or password
+        MsgBox "Invalid username or password. Please try again.", vbExclamation, "Error"
+        ' Clear password field
+        TextBox20.Text = ""
+    End If
+
+    Exit Sub
+
+ErrorHandler:
+    MsgBox "An error occurred: " & Err.Description, vbExclamation, "Error"
+End Sub
+
+Private Sub CommandButton2_Click()
+    ' Clear username and password fields
+    Unload Me
+End Sub
+
+
+Private Sub Label1_Click()
+
+End Sub
+
+Private Sub TextBox100_Change()
+
+End Sub
+
+Private Sub TextBox20_Change()
+
+End Sub
+
+Private Sub UserForm_Click()
+
+End Sub
+
+--------------FeesDeposit-----------------
+Option Explicit
+
+Private Sub CBstandard_Change()
+    With Sheet2
+    If CBstandard.Value = "8th" Then
+        FeeDeposit.LBLremiander.Caption = "Your Monthly Fees Are : 2000"
+    ElseIf CBstandard.Value = "9th" Then
+        FeeDeposit.LBLremiander.Caption = "Your Monthly Fees Are : 3500"
+    ElseIf CBstandard.Value = "10th" Then
+        FeeDeposit.LBLremiander.Caption = "Your Monthly Fees Are : 5000"
+    End If
+    End With
+End Sub
+
+Private Sub CommandButton1_Click()
+    
+    Sheet2.Activate
+    
+    'Data Validation
+    If TBregno1.Value = "" Then
+        MsgBox ("Please enter your registrationnumber provided to you")
+        Exit Sub
+    End If
+    
+    If TBname.Value = "" Then
+        MsgBox ("Please enter your name")
+        Exit Sub
+    End If
+    
+    If CBstandard.Value = "" Then
+        MsgBox ("Please Select Your Standard")
+        Exit Sub
+    End If
+    
+    If CBfeesmonth.Value = "" Then
+        MsgBox ("Please Select the months for which you want to pay the fees")
+        Exit Sub
+    End If
+    
+    If TBamount.Value = "" Then
+        MsgBox ("Please enter the amount you want to pay")
+        Exit Sub
+    End If
+    
+    If CBmode.Value = "" Then
+        MsgBox ("Please select the mode of payment")
+        Exit Sub
+    End If
+    
+    If Not IsNumeric(TBregno1.Value) Or Len(TBregno1.Value) <> 4 Then
+        MsgBox "Please enter a valid 4-digit registration number."
+        TBregno1.SetFocus
+        Exit Sub
+    End If
+    
+    If Not IsNumeric(TBamount.Value) Or TBamount.Value <= 0 Then
+        MsgBox "Please enter a valid amount greater than zero."
+        TBamount.SetFocus
+        Exit Sub
+    End If
+    
+    
+    If CBmode.ListIndex = -1 Then
+        MsgBox "Please select the mode of payment."
+        CBmode.SetFocus
+        Exit Sub
+    End If
+    
+    If CBstandard.ListIndex = -1 Then
+        MsgBox "Please select your standard."
+        CBstandard.SetFocus
+        Exit Sub
+    End If
+    
+    If CBfeesmonth.ListIndex = -1 Then
+        MsgBox "Please select the month for which you want to pay the fees."
+        CBfeesmonth.SetFocus
+        Exit Sub
+    End If
+
+    
+    
+    'Defining Variables
+    Dim receiptno As Integer
+    Dim regno As String
+    Dim name As String
+    Dim standard As String
+    Dim fees_date As Date
+    Dim feesmonth As String
+    Dim amount As String
+    Dim mode As String
+    
+    'Assigning values
+    receiptno = LBLreceiptno.Caption
+    regno = TBregno1.Value
+    name = TBname.Value
+    standard = CBstandard.Value
+    fees_date = TBcapTodaysDate.Text
+    feesmonth = CBfeesmonth.Value
+    amount = TBamount.Value
+    mode = CBmode.Value
+    
+    'Defining Worksheet
+    Dim ws1 As Worksheet
+    Set ws1 = ThisWorkbook.Sheets("FeesRecord")
+    
+    'Find next row of data
+    Dim nextRow As Long
+    nextRow = Cells(Rows.Count, 1).End(xlUp).Row + 1
+    
+    
+    'Entering values in record sheet
+    ws1.Range("A" & nextRow) = receiptno
+    ws1.Range("B" & nextRow) = regno
+    ws1.Range("C" & nextRow) = name
+    ws1.Range("D" & nextRow) = standard
+    ws1.Range("E" & nextRow) = fees_date
+    ws1.Range("F" & nextRow) = feesmonth
+    ws1.Range("G" & nextRow) = amount
+    ws1.Range("H" & nextRow) = mode
+    
+    MsgBox ("Fees have been Recorded")
+    
+    
+    Call UserForm_Initialize
+    
+End Sub
+
+Private Sub CommandButton2_Click()
+    Unload Me
+End Sub
+
+Private Sub CommandButton4_Click()
+    Unload Me
+    FeeDeposit.Show
+End Sub
+
+
+Private Sub Frame3_Click()
+
+End Sub
+
+Private Sub TBregno2_Change()
+    '=========================================================================
+    'start code for Listbox1 to view all fee detail of any particular student
+    '=========================================================================
+    
+    Dim ws2 As Worksheet
+    Set ws2 = ThisWorkbook.Sheets("FeesRecord")
+    Dim i As Long
+    Dim x As Long
+    Dim p As Long
+    Me.ListBox1.Clear
+    
+    'for listbox1 header
+    Me.ListBox1.AddItem "Registration No"
+    Me.ListBox1.List(ListBox1.ListCount - 1, 1) = "Receipt No"
+    Me.ListBox1.List(ListBox1.ListCount - 1, 2) = "Student Name"
+    Me.ListBox1.List(ListBox1.ListCount - 1, 3) = "Standard"
+    Me.ListBox1.List(ListBox1.ListCount - 1, 4) = "Date of Pay"
+    Me.ListBox1.List(ListBox1.ListCount - 1, 5) = "Month of Fees"
+    Me.ListBox1.List(ListBox1.ListCount - 1, 6) = "Fees Amount"
+    Me.ListBox1.List(ListBox1.ListCount - 1, 7) = "Mode of Pay"
+
+    
+    Me.ListBox1.Selected(0) = True
+    
+    For i = 2 To ws2.Range("A" & Rows.Count).End(xlUp).Row
+    For x = 1 To Len(ws2.Cells(i, 3))
+    p = Me.Tbregno2.TextLength
+    
+    
+    If LCase(Mid(ws2.Cells(i, 3), x, p)) = Me.Tbregno2 And Me.Tbregno2 <> "" Then
+    With Me.ListBox1
+    .AddItem ws2.Cells(i, 3)
+    .List(ListBox1.ListCount - 1, 1) = ws2.Cells(i, 1)
+    .List(ListBox1.ListCount - 1, 2) = ws2.Cells(i, 2)
+    .List(ListBox1.ListCount - 1, 3) = ws2.Cells(i, 20)
+    .List(ListBox1.ListCount - 1, 4) = ws2.Cells(i, 21)
+    .List(ListBox1.ListCount - 1, 5) = ws2.Cells(i, 22)
+    .List(ListBox1.ListCount - 1, 6) = ws2.Cells(i, 23)
+    .List(ListBox1.ListCount - 1, 7) = ws2.Cells(i, 24)
+    .List(ListBox1.ListCount - 1, 8) = ws2.Cells(i, 25)
+    .List(ListBox1.ListCount - 1, 9) = ws2.Cells(i, 27)
+      
+    End With
+    End If
+    Next x
+    Next i
+    '========================================================================
+    ' End code for Listbox1 to view all fee detail of any particular student
+    '========================================================================
+
+End Sub
+
+Private Sub Label16_Click()
+
+End Sub
+
+Private Sub UserForm_Initialize()
+    '
+    Dim rData As Range
+    With Sheet2
+        Set rData = Cells(1, 1).CurrentRegion.Columns(1)
+        FeeDeposit.LBLreceiptno.Caption = Format(Application.WorksheetFunction.Max(rData) + 1, "000")
+    End With
+    
+    TBcapTodaysDate.Text = Format(Now(), "dd-mm-yy")
+End Sub
+
+
+----------Admission--------------
+
+
+
+Private Sub CommandButton10_Click()
+    Unload Me
+    Admission.Show
+End Sub
+
+Private Sub CommandButton11_Click()
+    Unload Me
+End Sub
+Private Sub CommandButton6_Click()
+On Error Resume Next
+Dim x As Integer
+Application.FileDialog(msoFileDialogOpen).AllowMultiSelect = False
+x = Application.FileDialog(msoFileDialogOpen).Show
+If x <> 0 Then
+fpath = Application.FileDialog(msoFileDialogOpen).SelectedItems(1)
+Image1.Picture = LoadPicture(fpath)
+Image1.PictureSizeMode = 1
+End If
+End Sub
+
+Private Sub CommandButton7_Click()
+            
+    'Data Validation
+    If TBregno1.Value = "" Then
+        MsgBox ("Please enter your registrationnumber provided to you")
+        TBregno1.SetFocus
+        Exit Sub
+    End If
+    
+    If TBstuname.Value = "" Then
+        MsgBox ("Please enter your name")
+        TBstuname.SetFocus
+        Exit Sub
+    End If
+    
+    If TBfathername.Value = "" Then
+        MsgBox ("Please enter your Father's name")
+        TBfathername.SetFocus
+        Exit Sub
+    End If
+    
+    If CBgender.Value = "" Then
+        MsgBox ("Please select your gender")
+        CBgender.SetFocus
+        Exit Sub
+    End If
+    
+    If TBdob.Value = "" Then
+        MsgBox ("Plese enter Your Date of Birth")
+        TBdob.SetFocus
+        Exit Sub
+    End If
+    
+    If TBmobileno.Value = "" Then
+        MsgBox ("Please enter your Mobile No.")
+        TBmobileno.SetFocus
+        Exit Sub
+    End If
+    
+    If TBwhatsappno.Value = "" Then
+        MsgBox ("Please enter your Whatsapp No.")
+        TBwhatsappno.SetFocus
+        Exit Sub
+    End If
+    
+    If TBaddress.Value = "" Then
+        MsgBox ("Please Enter Your Address")
+        TBaddress.SetFocus
+        Exit Sub
+    End If
+    
+    If TBschoolname.Value = "" Then
+        MsgBox ("Please enter your School name")
+        TBschoolname.SetFocus
+        Exit Sub
+    End If
+    
+    If CBstandard.Value = "" Then
+        MsgBox ("Please Select the standard")
+        CBstandard.SetFocus
+        Exit Sub
+    End If
+    
+    If CBstutype.Value = "" Then
+        MsgBox ("Please enter student type")
+        CBstutype.SetFocus
+        Exit Sub
+    End If
+    
+    If Not IsNumeric(TBmobileno.Value) Or Not IsNumeric(TBwhatsappno.Value) Then
+        MsgBox "Mobile No. and Whatsapp No. should contain only numeric values."
+        TBmobileno.SetFocus
+        Exit Sub
+    End If
+   
+    If Not IsDate(TBdob.Value) Then
+        MsgBox "Please enter a valid date of birth."
+        TBdob.SetFocus
+        Exit Sub
+    End If
+    If Len(TBmobileno.Value) <> 10 Then
+        MsgBox "Mobile No. should be 10 digits long."
+        TBmobileno.SetFocus
+        Exit Sub
+    End If
+    If Len(TBwhatsappno.Value) <> 10 Then
+        MsgBox "Whatsapp No. should be 10 digits long."
+        TBmobileno.SetFocus
+        Exit Sub
+    End If
+    If CBgender.ListIndex = -1 Then
+        MsgBox "Please select your gender."
+        CBgender.SetFocus
+        Exit Sub
+    End If
+
+    
+    'Entering the data in DataBade sheet
+    Dim ws As Worksheet
+    Set ws = ThisWorkbook.Sheets("DataBase")
+    
+    'Find next row of data
+    Dim nextRow As Long
+    nextRow = Cells(Rows.Count, 1).End(xlUp).Row + 1
+    
+    
+    
+    With ws
+    .Range("A" & nextRow).Value = TBregno1.Text
+    .Range("B" & nextRow).Value = TBstuname.Text
+    .Range("C" & nextRow).Value = TBfathername.Text
+    .Range("D" & nextRow).Value = CBgender.Text
+    .Range("E" & nextRow).Value = TBdob.Text
+    .Range("F" & nextRow).Value = TBmobileno.Text
+    .Range("G" & nextRow).Value = TBwhatsappno.Text
+    .Range("H" & nextRow).Value = TBaddress.Text
+    .Range("I" & nextRow).Value = TBschoolname.Text
+    .Range("J" & nextRow).Value = CBstandard.Text
+    .Range("K" & nextRow).Value = CBstutype.Text
+    .Range("L" & nextRow).Value = TBtodaysdatecap.Text
+    End With
+    
+    'Code for Uploading photo
+    'Dim i As String
+    'i = TextBox1.Text
+    'FileCopy fpath, "C:\Photo\" & i & ".jpg"
+    
+    'Clearing all the records after submitting
+    TBregno1.Text = ""
+    TBstuname.Text = ""
+    TBfathername.Text = ""
+    TBdob.Text = ""
+    CBgender.Text = ""
+    TBmobileno.Text = ""
+    TBwhatsappno.Text = ""
+    TBaddress.Text = ""
+    TBschoolname.Text = ""
+    CBstandard.Text = ""
+    CBstutype.Value = ""
+    TBtodaysdatecap.Text = ""
+    
+    'Clearing the photo
+    'Image1.Picture = Nothing
+    
+    'Msg after submitting the form
+    MsgBox "Admission successfully."
+    
+End Sub
+
+
+Private Sub CommandButton8_Click()
+    '
+    If Tbregno2.Value = "" Then
+        MsgBox ("Please enter the reg no")
+        Exit Sub
+    End If
+    
+    '
+    On Error Resume Next
+    Dim x As Long
+    Dim y As Long
+    Dim ws As Worksheet
+    Set ws = ThisWorkbook.Sheets("DataBase")
+    x = ThisWorkbook.Sheets("DataBase").Range("A" & Rows.Count).End(xlUp).Row
+    For y = 2 To x
+        If ThisWorkbook.Sheets("DataBase").Cells(y, 1).Text = Tbregno2.Value Then
+            TBregno1.Text = ThisWorkbook.Sheets("DataBase").Cells(y, 1)
+            TBstuname.Text = ThisWorkbook.Sheets("DataBase").Cells(y, 2)
+            TBfathername.Text = ThisWorkbook.Sheets("DataBase").Cells(y, 3)
+            CBgender.Text = ThisWorkbook.Sheets("DataBase").Cells(y, 4)
+            TBdob.Text = ThisWorkbook.Sheets("DataBase").Cells(y, 5)
+            TBmobileno.Text = ThisWorkbook.Sheets("DataBase").Cells(y, 6)
+            TBwhatsappno.Text = ThisWorkbook.Sheets("DataBase").Cells(y, 7)
+            TBaddress.Text = ThisWorkbook.Sheets("DataBase").Cells(y, 8)
+            TBschoolname.Text = ThisWorkbook.Sheets("DataBase").Cells(y, 9)
+            CBstandard.Text = ThisWorkbook.Sheets("DataBase").Cells(y, 10)
+            CBstutype.Text = ThisWorkbook.Sheets("DataBase").Cells(y, 11)
+            TBtodaysdatecap.Text = ThisWorkbook.Sheets("DataBase").Cells(y, 12)
+            
+            Image1.Picture = LoadPicture("D:\Ajmal.VBA\Case Study\download.jpeg")
+            Image1.PictureSizeMode = 1
+        End If
+    Next y
+    
+    
+End Sub
+
+Private Sub CommandButton9_Click()
+
+    'Data Validation
+    If TBregno1.Value = "" Then
+        MsgBox ("Please enter your registrationnumber provided to you")
+        TBregno1.SetFocus
+        Exit Sub
+    End If
+    
+    If TBstuname.Value = "" Then
+        MsgBox ("Please enter your name")
+        TBstuname.SetFocus
+        Exit Sub
+    End If
+    
+    If TBfathername.Value = "" Then
+        MsgBox ("Please enter your Father's name")
+        TBfathername.SetFocus
+        Exit Sub
+    End If
+    
+    If CBgender.Value = "" Then
+        MsgBox ("Please select your gender")
+        CBgender.SetFocus
+        Exit Sub
+    End If
+    
+    If TBdob.Value = "" Then
+        MsgBox ("Plese enter Your Date of Birth")
+        TBdob.SetFocus
+        Exit Sub
+    End If
+    
+    If TBmobileno.Value = "" Then
+        MsgBox ("Please enter your Mobile No.")
+        TBmobileno.SetFocus
+        Exit Sub
+    End If
+    
+    If TBwhatsappno.Value = "" Then
+        MsgBox ("Please enter your Whatsapp No.")
+        TBwhatsappno.SetFocus
+        Exit Sub
+    End If
+    
+    If TBaddress.Value = "" Then
+        MsgBox ("Please Enter Your Address")
+        TBaddress.SetFocus
+        Exit Sub
+    End If
+    
+    If TBschoolname.Value = "" Then
+        MsgBox ("Please enter your School name")
+        TBschoolname.SetFocus
+        Exit Sub
+    End If
+    
+    If CBstandard.Value = "" Then
+        MsgBox ("Please Select the standard")
+        CBstandard.SetFocus
+        Exit Sub
+    End If
+    
+    If CBstutype.Value = "" Then
+        MsgBox ("Please enter student type")
+        CBstutype.SetFocus
+        Exit Sub
+    End If
+    
+    If Not IsNumeric(TBmobileno.Value) Or Not IsNumeric(TBwhatsappno.Value) Then
+        MsgBox "Mobile No. and Whatsapp No. should contain only numeric values."
+        TBmobileno.SetFocus
+        Exit Sub
+    End If
+   
+    If Not IsDate(TBdob.Value) Then
+        MsgBox "Please enter a valid date of birth."
+        TBdob.SetFocus
+        Exit Sub
+    End If
+    If Len(TBmobileno.Value) <> 10 Then
+        MsgBox "Mobile No. should be 10 digits long."
+        TBmobileno.SetFocus
+        Exit Sub
+    End If
+    If Len(TBwhatsappno.Value) <> 10 Then
+        MsgBox "Whatsapp No. should be 10 digits long."
+        TBmobileno.SetFocus
+        Exit Sub
+    End If
+    If CBgender.ListIndex = -1 Then
+        MsgBox "Please select your gender."
+        CBgender.SetFocus
+        Exit Sub
+    End If
+    
+    
+    'start code for Update Student Information in Database Worksheet
+    On Error Resume Next
+    Dim x As Long
+    Dim y As Long
+    x = ThisWorkbook.Sheets("DataBase").Range("A" & Rows.Count).End(xlUp).Row
+    For y = 2 To x
+        If ThisWorkbook.Sheets("DataBase").Cells(y, 1).Text = Tbregno2.Value Then
+            ThisWorkbook.Sheets("DataBase").Cells(y, 2) = TBstuname.Value
+            ThisWorkbook.Sheets("DataBase").Cells(y, 3) = TBfathername.Value
+            ThisWorkbook.Sheets("DataBase").Cells(y, 4) = CBgender.Text
+            ThisWorkbook.Sheets("DataBase").Cells(y, 5) = TBdob.Value
+            ThisWorkbook.Sheets("DataBase").Cells(y, 6) = TBmobileno.Value
+            ThisWorkbook.Sheets("DataBase").Cells(y, 7) = TBwhatsappno.Value
+            ThisWorkbook.Sheets("DataBase").Cells(y, 8) = TBaddress.Value
+            ThisWorkbook.Sheets("DataBase").Cells(y, 9) = TBschoolname.Value
+            ThisWorkbook.Sheets("DataBase").Cells(y, 10) = CBstandard.Value
+            ThisWorkbook.Sheets("DataBase").Cells(y, 11) = CBstutype.Value
+            ThisWorkbook.Sheets("DataBase").Cells(y, 12) = TBtodaysdatecap.Value
+            
+        
+            'Dim i As String
+            'i = TextBox1.Text
+            'FileCopy fpath, "C:\Photo\" & i & ".jpg"
+            'Me.TBstuname.Text = ""
+        End If
+    Next y
+    
+    MsgBox "Student Information updated successfully."
+    Unload Me
+    Admission.Show
+       
+End Sub
+
+Private Sub Frame1_Click()
+
+End Sub
+
+Private Sub Frame7_Click()
+
+End Sub
+
+Private Sub Image1_BeforeDragOver(ByVal Cancel As MSForms.ReturnBoolean, ByVal Data As MSForms.DataObject, ByVal x As Single, ByVal y As Single, ByVal DragState As MSForms.fmDragState, ByVal Effect As MSForms.ReturnEffect, ByVal Shift As Integer)
+
+End Sub
+
+Private Sub Label76_Click()
+
+End Sub
+
+Private Sub UserForm_Initialize()
+    TBtodaysdatecap.Text = Format(Now(), "dd-mm-yy")
+End Sub
+
+
+
